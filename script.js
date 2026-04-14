@@ -1,27 +1,27 @@
-const navButtons = document.querySelectorAll(".nav-btn");
-const pages = document.querySelectorAll(".page");
-const homeLinks = document.querySelectorAll(".home-link");
+// Mobile menu toggle
+const menuToggle = document.getElementById("menu-toggle");
+const navbar = document.getElementById("navbar");
 
-function showSection(targetId) {
-  navButtons.forEach((btn) => btn.classList.remove("active"));
-  pages.forEach((page) => page.classList.remove("active"));
-
-  const targetPage = document.getElementById(targetId);
-  const targetNavBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
-
-  if (targetPage) targetPage.classList.add("active");
-  if (targetNavBtn) targetNavBtn.classList.add("active");
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => {
+    navbar.classList.toggle("show");
+  });
 }
 
-navButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    showSection(button.dataset.target);
-  });
-});
+// Navigation (ONLY for internal buttons, not links)
+document.querySelectorAll(".nav-btn, .home-link").forEach(btn => {
+  btn.addEventListener("click", function () {
+    const target = this.getAttribute("data-target");
 
-homeLinks.forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    showSection(link.dataset.target);
+    if (!target) return;
+
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
+    });
+
+    document.getElementById(target).classList.add("active");
+
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    this.classList.add("active");
   });
 });
